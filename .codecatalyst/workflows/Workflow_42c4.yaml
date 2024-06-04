@@ -24,7 +24,8 @@ Actions:
       Sources:
         - WorkflowSource # This specifies that the action requires this Workflow as a source
     Compute:
-      Type: Lambda # Defines the action's properties.
+      Type: EC2
+      Fleet: Linux.Arm64.Large
     Configuration:
       TemplateFile: send-webhooks/template.yaml
       StackName: dev-dataxchange-pub

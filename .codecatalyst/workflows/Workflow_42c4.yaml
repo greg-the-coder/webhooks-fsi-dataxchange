@@ -1,0 +1,35 @@
+Name: Workflow_42c4
+SchemaVersion: "1.0"
+
+# Optional - Set automatic triggers.
+Triggers:
+  - Type: Push
+    Branches:
+      - main
+
+# Required - Define action configurations.
+Actions:
+  DeployWithAWSSAM_64:
+    # Identifies the action. Do not modify this value.
+    Identifier: codecatalyst-labs/deploy-with-sam@v1.0.2
+    # Required; You can use an environment, AWS account connection, and role to access AWS resources.
+    Environment:
+      Connections:
+        - Role: CodeCatalystPreviewDevelopmentAdministrator-nm9qvf
+          Name: "957576607483"
+      Name: Development
+    # Specifies the source and/or artifacts to pass to the action as input.
+    Inputs:
+      # Required
+      Sources:
+        - WorkflowSource # This specifies that the action requires this Workflow as a source
+    Compute:
+      Type: EC2
+      Fleet: Linux.Arm64.Large
+    Configuration:
+      TemplateFile: send-webhooks/template.yaml
+      StackName: dev-dataxchange-pub
+      S3Prefix: dev-dataxchange-pub
+      FailOnEmptyChangeset: true
+      AWSRegion: us-east-1
+      Capabilities: CAPABILITY_IAM
